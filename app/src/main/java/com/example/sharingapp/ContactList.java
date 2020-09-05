@@ -105,7 +105,7 @@ public class ContactList {
         }
     }
 
-    public void saveContacts(Context context) {
+    public boolean saveContacts(Context context) {
         try {
             FileOutputStream fos = context.openFileOutput(FILENAME, 0);
             OutputStreamWriter osw = new OutputStreamWriter(fos);
@@ -115,9 +115,13 @@ public class ContactList {
             osw.close();
         } catch(FileNotFoundException e) {
             e.printStackTrace();
+            return false;
         } catch(IOException e) {
             e.printStackTrace();
+            return false;
         }
+
+        return true;
     }
 
     public boolean isUsernameAvailable(String username) {
