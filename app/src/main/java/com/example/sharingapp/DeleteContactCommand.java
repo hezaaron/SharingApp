@@ -18,6 +18,6 @@ public class DeleteContactCommand extends Command {
 
     public void execute() {
         contact_list.deleteContact(contact);
-        setIsExecuted(contact_list.saveContacts(context));
+        super.setIsExecuted(contact_list.saveContacts(context));
     }
 }

@@ -21,6 +21,6 @@ public class EditContactCommand extends Command {
     public void execute() {
         contact_list.deleteContact(old_contact);
         contact_list.addContact(new_contact);
-        setIsExecuted(contact_list.saveContacts(context));
+        super.setIsExecuted(contact_list.saveContacts(context));
     }
 }

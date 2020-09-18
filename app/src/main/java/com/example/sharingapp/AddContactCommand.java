@@ -18,6 +18,6 @@ public class AddContactCommand extends Command {
 
     public void execute() {
         contact_list.addContact(contact);
-        setIsExecuted(contact_list.saveContacts(context));
+        super.setIsExecuted(contact_list.saveContacts(context));
     }
 }

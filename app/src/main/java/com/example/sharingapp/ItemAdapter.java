@@ -36,11 +36,12 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         // Note: getItem() is not a user-defined method in the Item/ItemList class!
         // The "Item" in the method name is a coincidence...
         Item item = getItem(position);
+        ItemController item_controller = new ItemController(item);
 
-        String title = "Title: " + item.getTitle();
-        String description = "Description: " + item.getDescription();
-        Bitmap thumbnail = item.getImage();
-        String status = "Status: " + item.getStatus();
+        String title = "Title: " + item_controller.getTitle();
+        String description = "Description: " + item_controller.getDescription();
+        Bitmap thumbnail = item_controller.getImage();
+        String status = "Status: " + item_controller.getStatus();
 
         // Check if an existing view is being reused, otherwise inflate the view.
         if (convertView == null) {
