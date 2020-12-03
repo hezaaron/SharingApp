@@ -17,7 +17,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -35,6 +34,4 @@ dependencies {
     implementation 'io.searchbox:jest-droid:2.0.0'
     testImplementation 'junit:junit:4.12'
 }
-
-
 
