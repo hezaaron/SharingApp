@@ -32,7 +32,7 @@ import io.searchbox.core.SearchResult;
 
 public class ElasticSearchManager {
     private static final String SERVER = "http://34.202.206.222:8080";
-    private static final String INDEX = "uniqueindex"; // TODO: MUST CHANGE THIS to random number string
+    private static final String INDEX = "723104330";
     private static final String ITEM_TYPE = "items";
     private static final String USER_TYPE = "users";
     private static JestDroidClient client;
