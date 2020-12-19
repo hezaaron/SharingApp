@@ -117,14 +117,7 @@ public class ItemList extends Observable {
     }
 
     public void getRemoteItems(){
-        ElasticSearchManager.GetItemListTask get_item_list_task = new ElasticSearchManager.GetItemListTask();
-        get_item_list_task.execute();
-
-        try {
-            items = get_item_list_task.get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
+        items = ElasticSearchManager.getItemList();
         notifyObservers();
     }
 }

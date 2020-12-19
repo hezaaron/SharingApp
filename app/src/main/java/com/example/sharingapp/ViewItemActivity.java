@@ -3,15 +3,17 @@ package com.example.sharingapp;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ViewItemActivity extends AppCompatActivity implements Observer {
 
@@ -89,7 +91,7 @@ public class ViewItemActivity extends AppCompatActivity implements Observer {
         user_list_controller.getRemoteUsers();
 
         on_create_update = true; // First call to update occurs now
-        bid_list_controller.loadBids(context);
+        bid_list_controller.getRemoteBids();
         bid_list_controller.addObserver(this);
         item_list_controller.addObserver(this);
         item_list_controller.getRemoteItems();
@@ -125,7 +127,7 @@ public class ViewItemActivity extends AppCompatActivity implements Observer {
 
         Bid bid = new Bid(item_id, new_bid_amount, username);
 
-        boolean success = bid_list_controller.addBid(bid, context);
+        boolean success = bid_list_controller.addBid(bid);
         if (!success){
             return;
         }
@@ -151,12 +153,9 @@ public class ViewItemActivity extends AppCompatActivity implements Observer {
         intent.putExtra("user_id", user_id);
 
         // Delay launch of SearchActivity to allow server enough time to process request
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(context, "Bid placed.", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
-            }
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            Toast.makeText(context, "Bid placed.", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
         }, 750);
 
     }
@@ -233,12 +232,9 @@ public class ViewItemActivity extends AppCompatActivity implements Observer {
         intent.putExtra("user_id", user_id);
 
         // Delay launch of MainActivity to allow server enough time to process request
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(context, "Item returned.", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
-            }
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            Toast.makeText(context, "Item returned.", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
         }, 750);
     }
 

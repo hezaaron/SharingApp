@@ -3,14 +3,16 @@ package com.example.sharingapp;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Handler;
-import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Add a new item
@@ -95,12 +97,9 @@ public class AddItemActivity extends AppCompatActivity {
         intent.putExtra("user_id", user_id);
 
         // Delay launch of new activity to allow server more time to process request
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(context, "Item created.", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
-            }
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            Toast.makeText(context, "Item created.", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
         }, 750);
     }
 
@@ -118,8 +117,9 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int request_code, int result_code, Intent intent){
-        if (request_code == REQUEST_CODE && result_code == RESULT_OK){
+    protected void onActivityResult(int request_code, int result_code, Intent intent) {
+        super.onActivityResult(request_code, result_code, intent);
+        if (request_code == REQUEST_CODE && result_code == RESULT_OK) {
             Bundle extras = intent.getExtras();
             image = (Bitmap) extras.get("data");
             photo.setImageBitmap(image);

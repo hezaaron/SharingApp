@@ -2,12 +2,13 @@ package com.example.sharingapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class BorrowedItemsActivity extends AppCompatActivity implements Observer {
 
@@ -40,23 +41,19 @@ public class BorrowedItemsActivity extends AppCompatActivity implements Observer
         item_list_controller.setItems(item_list_controller.getBorrowedItemsByUsername(username));
 
         // When an item is long clicked, this starts ViewItemActivity
-        borrowed_items.setOnItemLongClickListener(new android.widget.AdapterView.OnItemLongClickListener() {
+        borrowed_items.setOnItemLongClickListener((parent, view, pos, id) -> {
 
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long id) {
+            Item item = adapter.getItem(pos);
+            String item_id = item.getId();
 
-                Item item = adapter.getItem(pos);
-                String item_id = item.getId();
+            item_list_controller.removeObserver(BorrowedItemsActivity.this);
 
-                item_list_controller.removeObserver(BorrowedItemsActivity.this);
+            Intent intent1 = new Intent(context, ViewItemActivity.class);
+            intent1.putExtra("user_id", user_id);
+            intent1.putExtra("item_id", item_id);
+            startActivity(intent1);
 
-                Intent intent = new Intent(context, ViewItemActivity.class);
-                intent.putExtra("user_id", user_id);
-                intent.putExtra("item_id", item_id);
-                startActivity(intent);
-
-                return true;
-            }
+            return true;
         });
     }
 

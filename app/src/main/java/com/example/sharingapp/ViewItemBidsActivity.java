@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
@@ -45,7 +47,7 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
 
         context = getApplicationContext();
 
-        bid_list_controller.loadBids(context);
+        bid_list_controller.getRemoteBids();
         bid_list_controller.addObserver(this);
         item_bid_list = bid_list_controller.getItemBids(item_id);
 
@@ -89,7 +91,7 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
         }
 
         // Delete all bids related to that item.
-        success =  bid_list_controller.removeItemBids(item_id, context);
+        success =  bid_list_controller.removeItemBids(item_id);
         if (!success){
             return;
         }
@@ -102,12 +104,9 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
         intent.putExtra("user_id", user_id);
 
         // Delay launch of MainActivity to allow server enough time to process request
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(context, "Bid accepted.", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
-            }
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            Toast.makeText(context, "Bid accepted.", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
         }, 750);
     }
 
@@ -131,7 +130,7 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
         String status = item_controller.getStatus();
 
         // Delete selected bid.
-        Boolean success = bid_list_controller.removeBid(bid, context);
+        Boolean success = bid_list_controller.removeBid(bid);
         if (!success){
             return;
         }
@@ -168,12 +167,7 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
         intent.putExtra("user_id", user_id);
 
         // Delay launch of MainActivity to allow server enough time to process request
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(intent);
-            }
-        }, 750);
+        new Handler(Looper.getMainLooper()).postDelayed(() -> startActivity(intent), 750);
 
     }
 
@@ -203,7 +197,7 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
         }
 
         // Delete all bids related to that item.
-        success =  bid_list_controller.removeItemBids(item_id, context);
+        success =  bid_list_controller.removeItemBids(item_id);
         if (!success){
             return;
         }
@@ -216,12 +210,9 @@ public class ViewItemBidsActivity extends AppCompatActivity implements Observer 
         intent.putExtra("user_id", user_id);
 
         // Delay launch of MainActivity to allow server enough time to process request
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(context, "All bids declined.", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
-            }
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            Toast.makeText(context, "All bids declined.", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
         }, 750);
     }
 

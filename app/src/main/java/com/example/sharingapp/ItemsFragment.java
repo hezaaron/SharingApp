@@ -3,13 +3,14 @@ package com.example.sharingapp;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 
@@ -64,22 +65,18 @@ public abstract class ItemsFragment extends Fragment implements Observer {
 
     public void setFragmentOnItemLongClickListener(){
         // When item is long clicked, this starts EditItemActivity
-        list_view.setOnItemLongClickListener(new android.widget.AdapterView.OnItemLongClickListener() {
+        list_view.setOnItemLongClickListener((parent, view, pos, id) -> {
+            Item item = adapter.getItem(pos);
 
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long id) {
-                Item item = adapter.getItem(pos);
+            int meta_pos = item_list_controller.getIndex(item);
+            if (meta_pos >= 0) {
 
-                int meta_pos = item_list_controller.getIndex(item);
-                if (meta_pos >= 0) {
-
-                    Intent edit = new Intent(context, EditItemActivity.class);
-                    edit.putExtra("user_id", user_id);
-                    edit.putExtra("position", meta_pos);
-                    startActivity(edit);
-                }
-                return true;
+                Intent edit = new Intent(context, EditItemActivity.class);
+                edit.putExtra("user_id", user_id);
+                edit.putExtra("position", meta_pos);
+                startActivity(edit);
             }
+            return true;
         });
     }
 

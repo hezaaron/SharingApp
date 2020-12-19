@@ -3,10 +3,10 @@ package com.example.sharingapp;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Handler;
-import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +14,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Editing a pre-existing item consists of deleting the old item and adding a new item with the old
@@ -126,8 +128,9 @@ public class EditItemActivity extends AppCompatActivity implements Observer {
     }
 
     @Override
-    protected void onActivityResult(int request_code, int result_code, Intent intent){
-        if (request_code == REQUEST_CODE && result_code == RESULT_OK){
+    protected void onActivityResult(int request_code, int result_code, Intent intent) {
+        super.onActivityResult(request_code, result_code, intent);
+        if (request_code == REQUEST_CODE && result_code == RESULT_OK) {
             Bundle extras = intent.getExtras();
             image = (Bitmap) extras.get("data");
             photo.setImageBitmap(image);
@@ -157,12 +160,9 @@ public class EditItemActivity extends AppCompatActivity implements Observer {
         intent.putExtra("user_id", user_id);
 
         // Delay launch of new activity to allow server more time to process request
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(context, "Item removed.", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
-            }
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            Toast.makeText(context, "Item removed.", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
         }, 750);
     }
 
@@ -201,12 +201,9 @@ public class EditItemActivity extends AppCompatActivity implements Observer {
         intent.putExtra("user_id", user_id);
 
         // Delay launch of MainActivity to allow server enough time to process request
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(context, "Item saved.", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
-            }
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            Toast.makeText(context, "Item saved.", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
         }, 750);
     }
 

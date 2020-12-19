@@ -119,22 +119,8 @@ public class BidList extends Observable {
         return highest_bidder;
     }
 
-
-    public void loadBids(Context context) {
-
-        try {
-            FileInputStream fis = context.openFileInput(FILENAME);
-            InputStreamReader isr = new InputStreamReader(fis);
-            Gson gson = new Gson();
-            Type listType = new TypeToken<ArrayList<Bid>>() {
-            }.getType();
-            bids = gson.fromJson(isr, listType); // temporary
-            fis.close();
-        } catch (FileNotFoundException e) {
-            bids = new ArrayList<Bid>();
-        } catch (IOException e) {
-            bids = new ArrayList<Bid>();
-        }
+    public void getRemoteBids(){
+        bids = ElasticSearchManager.getBidList();
         notifyObservers();
     }
 

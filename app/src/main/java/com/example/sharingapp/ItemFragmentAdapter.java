@@ -2,13 +2,14 @@ package com.example.sharingapp;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 
@@ -73,7 +74,7 @@ public class ItemFragmentAdapter extends ArrayAdapter<Item> {
         if (fragment instanceof BiddedItemsFragment) {
             BidList bid_list = new BidList();
             BidListController bid_list_controller = new BidListController(bid_list);
-            bid_list_controller.loadBids(parent.getContext());
+            bid_list_controller.getRemoteBids();
 
             String bidder = "Bidder: " + bid_list_controller.getHighestBidder(item_controller.getId());
             String highest_bid = "Highest Bid: " + bid_list_controller.getHighestBid(item_controller.getId());
