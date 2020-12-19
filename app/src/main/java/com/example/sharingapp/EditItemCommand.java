@@ -16,21 +16,9 @@ public class EditItemCommand extends Command {
 
     // Delete the old item remotely, save the new item remotely to server
     public void execute() {
-        ElasticSearchManager.RemoveItemTask remove_item_task = new ElasticSearchManager.RemoveItemTask();
-        remove_item_task.execute(old_item);
-
-        ElasticSearchManager.AddItemTask add_item_task = new ElasticSearchManager.AddItemTask();
-        add_item_task.execute(new_item);
-
-        // use get() to access the return of AddItemTask/RemoveItemTask.
-        // i.e. AddItemTask/RemoveItemTask returns a Boolean to indicate if the item was successfully
-        // deleted/saved to the remote server
-        try {
-            if(add_item_task.get() && remove_item_task.get()) {
-                super.setIsExecuted(true);
-            }
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+        if (ElasticSearchManager.addItem(new_item) && ElasticSearchManager.removeItem(old_item)) {
+            super.setIsExecuted(true);
+        } else {
             super.setIsExecuted(false);
         }
     }

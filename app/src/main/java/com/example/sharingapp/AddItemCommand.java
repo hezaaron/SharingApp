@@ -15,17 +15,9 @@ public class AddItemCommand extends Command{
 
     // Save the item remotely to server
     public void execute(){
-        ElasticSearchManager.AddItemTask add_item_task = new ElasticSearchManager.AddItemTask();
-        add_item_task.execute(item);
-
-        // use get() to access the return of AddItemTask. i.e. AddItemTask returns a Boolean to
-        // indicate if the item was successfully saved to the remote server
-        try {
-            if(add_item_task.get()) {
-                super.setIsExecuted(true);
-            }
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+        if (ElasticSearchManager.addItem(item)) {
+            super.setIsExecuted(true);
+        } else {
             super.setIsExecuted(false);
         }
     }

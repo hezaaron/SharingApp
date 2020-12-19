@@ -2,13 +2,15 @@ package com.example.sharingapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Editing a pre-existing user consists of deleting the old user and adding a new user with the old
@@ -66,12 +68,9 @@ public class EditUserActivity extends AppCompatActivity implements Observer {
         intent.putExtra("user_id", user_id);
 
         // Delay launch of MainActivity to allow server enough time to process request
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(context, "Profile edited.", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
-            }
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            Toast.makeText(context, "Profile edited.", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
         }, 750);
 
     }

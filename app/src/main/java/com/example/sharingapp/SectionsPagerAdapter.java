@@ -1,9 +1,10 @@
 package com.example.sharingapp;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 /**
  * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -14,7 +15,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     private String user_id;
 
     public SectionsPagerAdapter(FragmentManager fm, String user_id) {
-        super(fm);
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.user_id = user_id;
     }
 

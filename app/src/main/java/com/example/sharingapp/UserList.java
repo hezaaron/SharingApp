@@ -88,14 +88,7 @@ public class UserList extends Observable {
     }
 
     public void getRemoteUsers(){
-        ElasticSearchManager.GetUserListTask get_user_list_task = new ElasticSearchManager.GetUserListTask();
-        get_user_list_task.execute();
-
-        try {
-            users = get_user_list_task.get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
+        users = ElasticSearchManager.getUserList();
         notifyObservers();
     }
 }

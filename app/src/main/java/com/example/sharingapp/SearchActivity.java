@@ -3,13 +3,14 @@ package com.example.sharingapp;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,20 +49,16 @@ public class SearchActivity extends AppCompatActivity implements Observer {
         item_list_controller.setItems(item_list_controller.getSearchItems(user_id));
 
         // When an item is long clicked, this starts ViewItemActivity
-        all_items.setOnItemLongClickListener(new android.widget.AdapterView.OnItemLongClickListener() {
+        all_items.setOnItemLongClickListener((parent, view, pos, id) -> {
+            Item item = adapter.getItem(pos);
+            String item_id = item.getId();
 
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long id) {
-                Item item = adapter.getItem(pos);
-                String item_id = item.getId();
+            Intent intent1 = new Intent(context, ViewItemActivity.class);
+            intent1.putExtra("user_id", user_id);
+            intent1.putExtra("item_id", item_id);
+            startActivity(intent1);
 
-                Intent intent = new Intent(context, ViewItemActivity.class);
-                intent.putExtra("user_id", user_id);
-                intent.putExtra("item_id", item_id);
-                startActivity(intent);
-
-                return true;
-            }
+            return true;
         });
     }
 

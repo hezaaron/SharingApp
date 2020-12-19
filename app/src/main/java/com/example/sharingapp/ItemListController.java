@@ -76,15 +76,15 @@ public class ItemListController {
         return item_list.getItemById(id);
     }
 
+    public void getRemoteItems(){
+        item_list.getRemoteItems();
+    }
+
     public void addObserver(Observer observer) {
         item_list.addObserver(observer);
     }
 
     public void removeObserver(Observer observer) {
         item_list.removeObserver(observer);
-    }
-
-    public void getRemoteItems(){
-        item_list.getRemoteItems();
     }
 }
